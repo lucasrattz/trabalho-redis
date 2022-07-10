@@ -8,4 +8,7 @@ Clone o repositório e execute os comandos abaixo para configurar o projeto:
   npm init -y
   npm i redis readline
 ```
+
+Em seguida confira o arquivo ```config.json``` e altere o endereço e porta do servidor do Redis caso necessário.
+
 Agora basta executar com o comando ```node index.js```.
