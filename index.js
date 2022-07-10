@@ -7,8 +7,6 @@ const config = require("./config.json");
 
 const redisClient = redisConnect();
 
-let menu = 1;
-
 generateNumbers = () => {
     let numbers = [];
     for(let i = 0; i < 6; i++) {
