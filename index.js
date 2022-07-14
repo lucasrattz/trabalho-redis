@@ -35,10 +35,7 @@ populateRecords = () => {
             redisClient.hSet("numero_sorteio:" + i, "numeros", generateNumbers().join(','));
             redisClient.hSet("numero_sorteio:" + i, "ganhadores", generateWinners());
 
-            redisClient.hSet("data:" + startDate.toISOString().split('T')[0], "data", startDate.toISOString().split('T')[0]);
             redisClient.hSet("data:" + startDate.toISOString().split('T')[0], "numero_sorteio", i);
-            redisClient.hSet("data:" + startDate.toISOString().split('T')[0], "numeros", generateNumbers().join(','));
-            redisClient.hSet("data:" + startDate.toISOString().split('T')[0], "ganhadores", generateWinners());
 
             startDate.setDate(startDate.getDate() + 3);
             i++;
@@ -49,10 +46,7 @@ populateRecords = () => {
             redisClient.hSet("numero_sorteio:" + i, "numeros", generateNumbers().join(','));
             redisClient.hSet("numero_sorteio:" + i, "ganhadores", generateWinners());
 
-            redisClient.hSet("data:" + startDate.toISOString().split('T')[0], "data", startDate.toISOString().split('T')[0]);
             redisClient.hSet("data:" + startDate.toISOString().split('T')[0], "numero_sorteio", i);
-            redisClient.hSet("data:" + startDate.toISOString().split('T')[0], "numeros", generateNumbers().join(','));
-            redisClient.hSet("data:" + startDate.toISOString().split('T')[0], "ganhadores", generateWinners());
 
             startDate.setDate(startDate.getDate() + 4);
             i++;
@@ -94,9 +88,12 @@ menu = () => {rl.question(`
             let output = {};
             const _date = new Date(date);
             output = await redisClient.hGetAll('data:' + _date.toISOString().split('T')[0]);
-            if(Object.keys(output).length === 0)
-            console.log("Não há sorteio com esta data em registro.");
-            else console.log(JSON.stringify(output, null, "\t"));
+            if(Object.keys(output).length === 0){
+                console.log("Não há sorteio com esta data em registro.");
+            } else {
+                output = await redisClient.hGetAll('numero_sorteio:' + output['numero_sorteio']);
+                console.log(JSON.stringify(output, null, "\t"));
+            }
             redisClient.quit();
             console.log("\n\n");
             menu();
